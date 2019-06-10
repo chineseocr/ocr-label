@@ -9,7 +9,8 @@ python app.py 8080 ##8080端口号，可以设置任意端口
 
 
 ## 访问服务
-http://127.0.0.1:8080/label
+http://127.0.0.1:8080/label      
+
 <img width="500" height="300" src="https://github.com/chineseocr/ocr-label/blob/master/test/demo.png"/>
 
 
