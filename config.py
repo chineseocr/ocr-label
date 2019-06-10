@@ -1,0 +1,9 @@
+IMAGEPATH   = 'data/data/*/*.[j|p|J]*'##待纠偏目录
+correctpath = 'data/correct/'##纠偏完成写入目录
+Nmax        = 10##每次页面显示的最大纠偏数
+timeOut     = 60*60##超时时间,用于返回纠偏池
+ocrAuto     = True##是否自动调用OCR接口进行纠偏
+ocrModel = 'crnn/ocr-lstm.pth'
+LSTMFLAG=True
+chinsesModel=True
+GPU=False

@@ -1,0 +1,14 @@
+# Python:
+*.py[cod]
+*.so
+*.egg
+*.egg-info
+*.pb
+*.h5
+*.pbtxt
+*.weights
+dist
+buil
+.DS_Store*
+.ipynb_checkpoints
+__pycache__

@@ -1,0 +1,91 @@
+$def with (posts)  
+<script type="text/javascript" src="static/js/jquery.js"></script> 
+<style>
+#nav { width:50px; height: 300px; border: 4px solid #D4CD49; position:fixed;left:92%;top:0% }
+</style>
+<div id="nav">
+<input type="button" value="提交" class="btn2" style="width:50px; height: 300px;border: 4px solid #D4CD49;"  onclick = "postImg()"/>
+    
+</div>
+<ul>
+    <p> 双击图像进行自动OCR识别</p>
+    <input type="button" value="全选,删除所有图像"   onclick = "selectAll()"/>
+    <input type="button" value="取消全选"   onclick = "selectNone()"/>
+    
+    $if posts.get('data') is not None:
+                <table>
+                
+                $for line in posts['data']:
+                           <tr>
+                           <td><div>
+                            <input id="delete_$line['index']" type="checkbox" value="0" name="delete_$line['index']">$line['path']</input>
+                            <div id="$line['path']" width="1024"  height="32" onclick="postOcr('$line['path']',this)">
+                            <img class='img' name='$line['path']'  src="data:image/png;base64,$line['url']" alt="False"  height="32"/></div>
+                            <textarea  name="label" style="background-color:#FEFFCE;height: 32px;width: 512px;resize: none;" contenteditable="true">$line['label']</textarea>
+                            </div>
+                           </td>
+                           </tr>
+             </table> 
+</ul>  
+ 
+
+
+
+<script type="text/javascript">    
+    
+function postImg(){
+    /* */
+    var imgList  = document.getElementsByClassName("img");
+    var labeList = document.getElementsByName("label");
+    
+    var dataArray = new Array(labeList.length);
+    var i;
+    for (i = 0; i < imgList.length; i++) {
+          //var url = imgList[i].values;
+          var path  = imgList[i].name;
+          var label = labeList[i].value.trim();
+          var deleteList = document.getElementById("delete_"+i);
+          dataArray[i] = {'path':path,'text':label,'flag':deleteList.checked};
+    }
+
+    var dataList = {'data':dataArray};//
+    jQuery.ajax({
+                type: "post",
+                url: "$posts['labelUrl']",
+                data:JSON.stringify(dataList),
+                success:function(d){
+                window.location.href = "$posts['labelUrl']";
+                          }
+                 })
+
+}
+
+function postOcr(path,that){
+        //执行post请求，识别图片
+         if(1)
+         {   
+        jQuery.ajax({
+            type: "post",
+            url: "$posts['ocrUrl']",
+            data:JSON.stringify({"path":path}),
+          success:function(d){
+              
+              jQuery(that).next().val(d);
+              
+          }
+        });}
+        
+         }
+    
+    
+var selectAll = function(){
+// 全选
+        jQuery("[type='checkbox']").prop("checked","checked"); //
+    }
+
+var selectNone = function(){
+//       
+        jQuery("[type='checkbox']").prop("checked",""); // 方法2
+    }
+</script>
+  
