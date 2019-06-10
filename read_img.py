@@ -61,17 +61,20 @@ def correct_image(data,correctpath,statusDict,status=2):
            label     = lst['text'].strip()
            flag     = lst['flag']##是否删除图像及标签
            path,filename =imagepath.split('/')[-2:]
-           root = correctpath+path
+           root = os.path.join(correctpath,path)
            if not os.path.exists(root):
                os.makedirs(root)
            
            img = Image.open(imagepath)
+           imgP =os.path.join(root,filename)
            ##写入图像
            if not flag and label!='###':
-               img.save(root+'/'+filename)
+               img.save(imgP)
                #cv2.imwrite(e,img)
                ##写入纠错文本
-               with open(root+'/'+filename.replace('.jpg','.txt'),'w') as f:
+               basename    = os.path.basename(imgP)
+               txtpath     = imgP.replace(basename,basename.split('.')[0]+'.txt')
+               with open(txtpath,'w') as f:
                     f.write(label)
            set_image_status(imagepath,statusDict,status=status)
            os.remove(imagepath)
