@@ -63,7 +63,7 @@ def correct_image(data,correctpath,statusDict,status=2):
            path,filename =imagepath.split('/')[-2:]
            root = correctpath+path
            if not os.path.exists(root):
-               os.mkdir(root)
+               os.makedirs(root)
            
            img = Image.open(imagepath)
            ##写入图像
